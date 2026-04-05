@@ -1,0 +1,564 @@
+openapi: 3.0.0
+info:
+  title: Finance Dashboard System
+  version: 1.0.0
+  description: Finance Data Processing and Access Control
+
+paths:
+  /users:
+    post:
+      tags:
+        - User
+      summary: creating a User
+      operationId: addUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDTO'
+
+      responses:
+        '201':
+          description: user created successfully
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+    get:
+      tags:
+        - User
+      summary: get all users
+      operationId: getAllUser
+      responses:
+        '200':
+          description: get all users
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserDTO'
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /users/{id}:
+    get:
+      tags:
+        - User
+      summary: get user by id
+      operationId: getUser
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: fetch user by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                type: string
+
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+    put:
+      tags:
+        - User
+      summary: update user by id
+      operationId: updateUser
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDTO'
+
+      responses:
+        '201':
+          description: updated user successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+    delete:
+      tags:
+        - User
+      summary: delete user by id
+      operationId: deleteUser
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '204':
+          description: user deleted successfully
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /users/{id}/status:
+    patch:
+      tags:
+        - User
+      summary: update status of the user
+      operationId: updateStatus
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                status:
+                  type: string
+
+      responses:
+        '201':
+          description: updated user status successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+
+        '404':
+          description: user not found
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /records:
+    post:
+      tags:
+        - Record
+      summary: creating a record
+      operationId: addRecord
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordDTO'
+
+      responses:
+        '201':
+          description: record created successfully
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+    get:
+      tags:
+        - Record
+      summary: get all records
+      operationId: getAllRecord
+      parameters:
+        - in: query
+          name: recordType
+          required: false
+          schema:
+            type: string
+
+        - in: query
+          name: category
+          required: false
+          schema:
+            type: string
+
+        - in: query
+          name: startDate
+          required: false
+          schema:
+            type: string
+            format: date
+
+        - in: query
+          name: endDate
+          required: false
+          schema:
+            type: string
+            format: date
+
+      responses:
+        '200':
+          description: get all records
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/RecordDTO'
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /records/{id}:
+    get:
+      tags:
+        - Record
+      summary: get record by id
+      operationId: getRecord
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: fetch record by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordDTO'
+
+        '404':
+          description: record not found
+          content:
+            application/json:
+              schema:
+                type: string
+
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+    put:
+      tags:
+        - Record
+      summary: update record by id
+      operationId: updateRecord
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordDTO'
+
+      responses:
+        '201':
+          description: updated record successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordDTO'
+
+        '404':
+          description: record not found
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+    delete:
+      tags:
+        - Record
+      summary: delete record by id
+      operationId: deleteRecord
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '204':
+          description: record deleted successfully
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '404':
+          description: record not found
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /dashboard/summary:
+    get:
+      tags:
+        - Dashboard
+      summary: Show details of the records
+      operationId: getDashboardData
+      responses:
+        '200':
+          description: fetch dashboard data successfully
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DashboardDTO'
+
+        '400':
+          description: bad request
+          content:
+            application/json:
+              schema:
+                type: string
+
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                type: string
+
+components:
+  schemas:
+    UserDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        createdAt:
+          type: string
+          format: date
+        status:
+          type: string
+        roleId:
+          type: integer
+
+    RecordDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        amount:
+          type: number
+          format: float
+        recordType:
+          type: string
+        category:
+          type: string
+        createdAt:
+          type: string
+          format: date
+        createdBy:
+          type: integer
+        description:
+          type: string
+
+    DashboardDTO:
+      type: object
+      properties:
+        totalIncome:
+          type: number
+          format: float
+        totalExpenses:
+          type: number
+          format: float
+        netBalance:
+          type: number
+          format: float
+        recentTransactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecordDTO'
+        categorySummary:
+          type: array
+          items:
+            properties:
+              category:
+                type: string
+              total:
+                type: number
+                format: float
+
